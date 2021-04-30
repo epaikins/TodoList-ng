@@ -1,19 +1,35 @@
-<form [formGroup]="todoForm" (ngSubmit)="onAdd()">
-  <label>Title</label>
-  <input type="text" placeholder="Title" formControlName="title">
-  <input type="submit" value="Add">
-</form>
-  <hr>
+<h2>ToDo List</h2>
 
+<div class="flex">
+  <div class="todoMain">
+    <form [formGroup]="todoForm" (ngSubmit)="onAdd()">
+      <!-- <label>Title</label> -->
+      <input id="title" class="title" type="text" placeholder="Title" formControlName="title" required>
+      <button *ngIf="todoForm.get('title').invalid; else elseBlock" class="dummy" type="submit" disabled><i class="fa fa-plus"></i></button>
+      <ng-template #elseBlock>
+        <button  class="button" type="submit"><i class="fa fa-plus"></i></button>
+      </ng-template>
+    </form>
+  </div>
+</div>
+
+
+<div class="flex">
   <div class="todoList">
     <div class="todoItem" *ngFor="let todo of todoList">
-      <input #todoChecked type="checkbox" [checked]="todo.done" (change)="onTodoChecked(todoChecked.checked, todo.title)">
-      <span *ngIf="todo.done; else elseBlock"><s>{{ todo.title }}</s></span>
-      <ng-template #elseBlock>{{ todo.title }}</ng-template>
-      <button (click) = "onRemove(todo.title)">delete</button>
+      <label class="container">
+        <span class="todoTitle" *ngIf="todo.done; else elseBlock"><s>{{ todo.title }}</s></span>
+        <ng-template class="todoTitle" #elseBlock> <span class="todoTitle"> {{ todo.title }} </span></ng-template>
+        <input class="check" checked="checked" #todoChecked type="checkbox" [checked]="todo.done"
+          (change)="onTodoChecked(todoChecked.checked, todo.title)">
+        <span class="checkmark"></span>
+      </label>
+      <button class="button delete" (click)="onRemove(todo.title)"><i class="fa fa-trash"></i></button>
     </div>
   </div>
+</div>
+<div class="flex">
+  <button class="button" (click)="onRemoveCompleted()">Remove Completed</button>
+  <button class="button" (click)="onRemoveAll()">Remove All</button>
 
-  <button (click) = "onRemoveCompleted()">Remove Completed</button>
-  <button (click) = "onRemoveAll()">Remove All</button>
-
+</div>

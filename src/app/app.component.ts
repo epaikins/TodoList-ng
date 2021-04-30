@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  FormBuilder } from '@angular/forms';
+import {  FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Todo } from './todo';
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent {
   todoList: Todo[] = [];
   todoForm = this.FormBuilder.group(
     {
-    title:''
+    title: new FormControl("", Validators.required)
   }
   )
   
@@ -27,10 +27,6 @@ export class AppComponent {
       alert("You cannot enter multiple todo titles...");
       this.todoForm.reset();
     }
-
-  }
-  
-  getTodoList():void{
 
   }
 
